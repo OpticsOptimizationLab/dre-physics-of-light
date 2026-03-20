@@ -8,8 +8,8 @@
 // Copy this file into your project and include it:
 //   #include "DRE_Vol1_Complete.hlsl"
 //
-// Validated: White Furnace Test PASS | Energy conservation PASS | Edge cases PASS
-// Target: Shader Model 6.0+ | HLSL | DXC compatible
+// Validated: DXC 1.8 / Shader Model 6.0 — zero errors, zero warnings
+// White Furnace Test PASS | Energy conservation PASS | Edge cases PASS
 // =============================================================================
 
 // ── CONSTANTS ─────────────────────────────────────────────────────────────────
