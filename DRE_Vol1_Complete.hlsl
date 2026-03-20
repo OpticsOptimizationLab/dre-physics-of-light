@@ -105,10 +105,10 @@ uint _OwenHash(uint x)
 }
 uint _ReverseBits32(uint x)
 {
-    x = (x & 0x55555555u) << 1  | (x >> 1)  & 0x55555555u;
-    x = (x & 0x33333333u) << 2  | (x >> 2)  & 0x33333333u;
-    x = (x & 0x0f0f0f0fu) << 4  | (x >> 4)  & 0x0f0f0f0fu;
-    x = (x & 0x00ff00ffu) << 8  | (x >> 8)  & 0x00ff00ffu;
+    x = ((x & 0x55555555u) << 1)  | ((x >> 1)  & 0x55555555u);
+    x = ((x & 0x33333333u) << 2)  | ((x >> 2)  & 0x33333333u);
+    x = ((x & 0x0f0f0f0fu) << 4)  | ((x >> 4)  & 0x0f0f0f0fu);
+    x = ((x & 0x00ff00ffu) << 8)  | ((x >> 8)  & 0x00ff00ffu);
     return (x << 16) | (x >> 16);
 }
 float2 SampleSobol2D(uint index, uint seed)

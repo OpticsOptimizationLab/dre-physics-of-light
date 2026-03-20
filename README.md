@@ -55,6 +55,17 @@ tests/
 
 ---
 
+## DXC Compilation
+
+All functions compile without errors or warnings under DirectX Shader Compiler (DXC) 1.8, Shader Model 6.0:
+
+```bash
+dxc -T cs_6_0 -E CSMain hlsl/_dxc_validation_wrapper.hlsl -Fo /dev/null
+# → no output = clean compile
+```
+
+The wrapper (`hlsl/_dxc_validation_wrapper.hlsl`) provides a valid compute shader entry point that exercises every function in the assembly.
+
 ## Validation Tests
 
 Run the test suite (requires Python and numpy):
