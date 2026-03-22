@@ -117,15 +117,16 @@ Results **above 1.001** indicate an energy gain and are a hard failure.
 
 ### **Proven Accuracy**
 - **White Furnace Test: 18/18 PASSED** (energy conservation verified)
-- Matches Frostbite PBR within 0.1%
 - Zero energy gain (all results < 1.001)
-- [See full validation report ](VALIDATION_SUMMARY.md)
+- Numerical stability at extreme angles
+- [See full validation report](VALIDATION_SUMMARY.md)
 
-### **Production Performance**
-- Register-optimized: PathTrace at 38–44 regs 95–100% GPU occupancy
-- Matches or beats UE5 in shader performance
-- Zero NaN/Inf at extreme angles
-- [See benchmark results ](BENCHMARKS.md)
+### **Industry-Standard Implementation**
+- Height-correlated Smith G₂ (Heitz 2014)
+- GGX/Trowbridge-Reitz NDF (Walter et al. 2007)
+- Schlick Fresnel approximation
+- VNDF importance sampling (Heitz 2018)
+- Register-optimized for GPU execution
 
 ### **Educational Clarity**
 - Code matches manuscript equations 1:1
@@ -137,13 +138,13 @@ Results **above 1.001** indicate an energy gain and are a hard failure.
 - CI/CD runs White Furnace Test on every commit
 - Real-time test status badges
 - Comprehensive validation reports
-- [See features & QA process ](FEATURES.md)
+- [See benchmark results](BENCHMARKS.md)
 
 ### **Citation-Ready**
 - `CITATION.cff` for academic papers
 - DOI-ready metadata
-- Used in research projects
-- [Cite this repository ](CITATION.cff)
+- Suitable for research use
+- [Cite this repository](CITATION.cff)
 
 ### **100% Open Source**
 - MIT License
@@ -151,15 +152,14 @@ Results **above 1.001** indicate an energy gain and are a hard failure.
 - Full transparency
 - Community-driven improvements
 
-** Only PBR implementation with automated energy conservation validation**
+Only PBR implementation with automated energy conservation validation and continuous testing.
 
 ---
 
 ## Documentation
 
 - [**VALIDATION_SUMMARY.md**](VALIDATION_SUMMARY.md) — White Furnace Test results & component verification
-- [**BENCHMARKS.md**](BENCHMARKS.md) — Performance comparison vs Frostbite, UE5, Unity
-- [**FEATURES.md**](FEATURES.md) — Complete feature list & quality metrics
+- [**BENCHMARKS.md**](BENCHMARKS.md) — Test methodology & measured results
 - [**CITATION.cff**](CITATION.cff) — How to cite this work in academic papers
 
 ---
