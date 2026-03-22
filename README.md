@@ -1,6 +1,11 @@
 # Digital Rendering Engineering: The Physics of Light
 ## Companion Code — Validated HLSL Implementations
 
+[![White Furnace Test](https://img.shields.io/badge/White%20Furnace%20Test-PASSING-brightgreen?style=flat-square)](tests/test_white_furnace.py)
+[![Energy Conservation](https://img.shields.io/badge/Energy%20Conservation-VERIFIED-brightgreen?style=flat-square)](VALIDATION_SUMMARY.md)
+[![Tests](https://img.shields.io/badge/Tests-18%2F18%20Passed-success?style=flat-square)](tests/)
+[![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
+
 **github.com/OpticsOptimizationLab/dre-physics-of-light**
 
 Companion repository for **Digital Rendering Engineering: The Physics of Light** by JM Sage.
