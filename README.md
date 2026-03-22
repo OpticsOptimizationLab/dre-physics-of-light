@@ -21,10 +21,10 @@ Copy `DRE_Vol1_Complete.hlsl` into your project:
 #include "DRE_Vol1_Complete.hlsl"
 
 // All functions are immediately available:
-float3 brdf   = EvaluateCookTorrance(L, V, N, F0, roughness);
-float3 H      = SampleVNDF(V, alpha, alpha, u);
+float3 brdf = EvaluateCookTorrance(L, V, N, F0, roughness);
+float3 H = SampleVNDF(V, alpha, alpha, u);
 float3 origin = OffsetRayOrigin(hitPos, hitNormal);
-float  energy = RunWhiteFurnaceTest(0.5f, 0.5f, 4096); // should return ~0.921
+float energy = RunWhiteFurnaceTest(0.5f, 0.5f, 4096); // should return ~0.921
 ```
 
 ---
@@ -32,29 +32,29 @@ float  energy = RunWhiteFurnaceTest(0.5f, 0.5f, 4096); // should return ~0.921
 ## Repository Structure
 
 ```
-DRE_Vol1_Complete.hlsl          ← Single assembly file — copy this into your project
+DRE_Vol1_Complete.hlsl Single assembly file — copy this into your project
 │
 hlsl/
 ├── ch05_fresnel/
-│   └── F_Schlick.hlsl          ← Schlick + FresnelConductorF0 (complex IOR)
+│ └── F_Schlick.hlsl Schlick + FresnelConductorF0 (complex IOR)
 ├── ch06_brdf/
-│   ├── D_GGX.hlsl              ← Trowbridge-Reitz NDF
-│   ├── V_SmithGGX_Correlated.hlsl  ← Height-correlated Smith G2
-│   └── CookTorrance_BRDF.hlsl  ← Complete specular BRDF assembly
+│ ├── D_GGX.hlsl Trowbridge-Reitz NDF
+│ ├── V_SmithGGX_Correlated.hlsl Height-correlated Smith G2
+│ └── CookTorrance_BRDF.hlsl Complete specular BRDF assembly
 ├── ch07_integration/
-│   ├── PowerHeuristic.hlsl     ← MIS power heuristic (beta=2)
-│   ├── RussianRoulette.hlsl    ← Unbiased path termination
-│   ├── SobolSampler.hlsl       ← Owen-scrambled Sobol QMC
-│   └── TemporalAccumulate.hlsl ← Variance-based TAA with AABB clamp
+│ ├── PowerHeuristic.hlsl MIS power heuristic (beta=2)
+│ ├── RussianRoulette.hlsl Unbiased path termination
+│ ├── SobolSampler.hlsl Owen-scrambled Sobol QMC
+│ └── TemporalAccumulate.hlsl Variance-based TAA with AABB clamp
 ├── ch09_validation/
-│   ├── SampleVNDF.hlsl         ← Heitz (2018) visible normal sampling
-│   └── RunWhiteFurnaceTest.hlsl ← Energy conservation validator
+│ ├── SampleVNDF.hlsl Heitz (2018) visible normal sampling
+│ └── RunWhiteFurnaceTest.hlsl Energy conservation validator
 └── ch10_utils/
-    └── OffsetRayOrigin.hlsl    ← Wächter & Binder (2019) ULP ray offset
+└── OffsetRayOrigin.hlsl Wächter & Binder (2019) ULP ray offset
 
 tests/
-├── test_white_furnace.py       ← Monte Carlo energy conservation test
-├── run_all_tests.py            ← Run all tests
+├── test_white_furnace.py Monte Carlo energy conservation test
+├── run_all_tests.py Run all tests
 └── requirements.txt
 ```
 
@@ -66,7 +66,7 @@ All functions compile without errors or warnings under DirectX Shader Compiler (
 
 ```bash
 dxc -T cs_6_0 -E CSMain hlsl/_dxc_validation_wrapper.hlsl -Fo /dev/null
-# → no output = clean compile
+# no output = clean compile
 ```
 
 The wrapper (`hlsl/_dxc_validation_wrapper.hlsl`) provides a valid compute shader entry point that exercises every function in the assembly.
@@ -82,9 +82,9 @@ python tests/run_all_tests.py
 
 Expected output:
 ```
-roughness 0.1  NdotV 0.5  →  0.9991  [PASS]
-roughness 0.5  NdotV 0.5  →  0.9213  [PASS]
-roughness 1.0  NdotV 0.5  →  0.8012  [PASS]
+roughness 0.1 NdotV 0.5 0.9991 [PASS]
+roughness 0.5 NdotV 0.5 0.9213 [PASS]
+roughness 1.0 NdotV 0.5 0.8012 [PASS]
 ...
 ALL TESTS PASSED
 ```
@@ -95,7 +95,7 @@ Results **above 1.001** indicate an energy gain and are a hard failure.
 
 ---
 
-## Cross-Reference: Book → Code
+## Cross-Reference: Book Code
 
 | Chapter | Section | File |
 |---------|---------|------|
@@ -115,52 +115,52 @@ Results **above 1.001** indicate an energy gain and are a hard failure.
 
 ## Why Choose DRE?
 
-### ✅ **Proven Accuracy**
+### **Proven Accuracy**
 - **White Furnace Test: 18/18 PASSED** (energy conservation verified)
 - Matches Frostbite PBR within 0.1%
 - Zero energy gain (all results < 1.001)
-- [See full validation report →](VALIDATION_SUMMARY.md)
+- [See full validation report ](VALIDATION_SUMMARY.md)
 
-### ⚡ **Production Performance**
-- Register-optimized: PathTrace at 38–44 regs → 95–100% GPU occupancy
+### **Production Performance**
+- Register-optimized: PathTrace at 38–44 regs 95–100% GPU occupancy
 - Matches or beats UE5 in shader performance
 - Zero NaN/Inf at extreme angles
-- [See benchmark results →](BENCHMARKS.md)
+- [See benchmark results ](BENCHMARKS.md)
 
-### 🎓 **Educational Clarity**
+### **Educational Clarity**
 - Code matches manuscript equations 1:1
 - Every function documented with paper references
 - No "black box" implementations
 - Self-contained: zero external dependencies
 
-### 🔬 **Automated Quality Assurance**
+### **Automated Quality Assurance**
 - CI/CD runs White Furnace Test on every commit
 - Real-time test status badges
 - Comprehensive validation reports
-- [See features & QA process →](FEATURES.md)
+- [See features & QA process ](FEATURES.md)
 
-### 📖 **Citation-Ready**
+### **Citation-Ready**
 - `CITATION.cff` for academic papers
 - DOI-ready metadata
 - Used in research projects
-- [Cite this repository →](CITATION.cff)
+- [Cite this repository ](CITATION.cff)
 
-### 🆓 **100% Open Source**
+### **100% Open Source**
 - MIT License
 - No proprietary dependencies
 - Full transparency
 - Community-driven improvements
 
-**→ Only PBR implementation with automated energy conservation validation**
+** Only PBR implementation with automated energy conservation validation**
 
 ---
 
 ## Documentation
 
-- 📘 [**VALIDATION_SUMMARY.md**](VALIDATION_SUMMARY.md) — White Furnace Test results & component verification
-- 📊 [**BENCHMARKS.md**](BENCHMARKS.md) — Performance comparison vs Frostbite, UE5, Unity
-- ✨ [**FEATURES.md**](FEATURES.md) — Complete feature list & quality metrics
-- 📝 [**CITATION.cff**](CITATION.cff) — How to cite this work in academic papers
+- [**VALIDATION_SUMMARY.md**](VALIDATION_SUMMARY.md) — White Furnace Test results & component verification
+- [**BENCHMARKS.md**](BENCHMARKS.md) — Performance comparison vs Frostbite, UE5, Unity
+- [**FEATURES.md**](FEATURES.md) — Complete feature list & quality metrics
+- [**CITATION.cff**](CITATION.cff) — How to cite this work in academic papers
 
 ---
 

@@ -13,23 +13,23 @@
 
 | Implementation | roughness=0.1 | roughness=0.5 | roughness=1.0 | Status |
 |---|:---:|:---:|:---:|:---:|
-| **DRE Vol. 1** | 0.9998 | 0.8572 | 0.4507 | ✅ PASS |
-| Frostbite PBR (Lagarde 2014) | 0.9997 | 0.8568 | 0.4503 | ✅ PASS |
-| UE5 DefaultLit | 0.9993 | 0.8551 | 0.4489 | ✅ PASS |
-| Unity Standard Shader | 1.0234 | 0.9102 | 0.5123 | ❌ FAIL (gain) |
-| Legacy Blinn-Phong | 1.1892 | 1.0847 | 0.8934 | ❌ FAIL (gain) |
+| **DRE Vol. 1** | 0.9998 | 0.8572 | 0.4507 | PASS |
+| Frostbite PBR (Lagarde 2014) | 0.9997 | 0.8568 | 0.4503 | PASS |
+| UE5 DefaultLit | 0.9993 | 0.8551 | 0.4489 | PASS |
+| Unity Standard Shader | 1.0234 | 0.9102 | 0.5123 | FAIL (gain) |
+| Legacy Blinn-Phong | 1.1892 | 1.0847 | 0.8934 | FAIL (gain) |
 
 **Notes:**
 - DRE matches Frostbite PBR within 0.1% (both use height-correlated Smith G₂)
-- UE5 uses uncorrelated form → slight deficit vs ground truth
+- UE5 uses uncorrelated form slight deficit vs ground truth
 - Unity Standard Shader violates energy conservation (gain > 1.001)
-- Blinn-Phong has no G₂ term → severe energy gain
+- Blinn-Phong has no G₂ term severe energy gain
 
 ---
 
 ## Shader Performance (GPU)
 
-**Test:** 1920×1080, RTX 4090, full-screen shading pass
+**Test:** 19201080, RTX 4090, full-screen shading pass
 **Material:** Roughness=0.5, Metallic=0.0, 1 directional light
 
 | Function | DRE Vol. 1 | Frostbite | UE5 | Register Cost (DRE) |
@@ -45,21 +45,21 @@
 **Notes:**
 - DRE matches or beats industry references
 - Height-correlated G₂ has zero overhead vs separable (both 2 sqrt operations)
-- Register-optimized: PathTrace at 38–44 regs → 95–100% occupancy on Ampere
+- Register-optimized: PathTrace at 38–44 regs 95–100% occupancy on Ampere
 
 ---
 
 ## Numerical Stability
 
-**Test:** Extreme angle conditions (NdotV → 0.001, alpha → 0.001)
+**Test:** Extreme angle conditions (NdotV 0.001, alpha 0.001)
 
 | Implementation | NaN count | Inf count | Energy spike | Status |
 |---|---:|---:|---:|:---:|
-| **DRE Vol. 1** | 0 | 0 | 0 | ✅ STABLE |
-| Frostbite PBR | 0 | 0 | 0 | ✅ STABLE |
-| UE5 DefaultLit | 0 | 0 | 0 | ✅ STABLE |
-| Unity Standard | 143 | 0 | 12 | ⚠️ UNSTABLE |
-| Naive implementation | 8,947 | 234 | 1,204 | ❌ UNSTABLE |
+| **DRE Vol. 1** | 0 | 0 | 0 | STABLE |
+| Frostbite PBR | 0 | 0 | 0 | STABLE |
+| UE5 DefaultLit | 0 | 0 | 0 | STABLE |
+| Unity Standard | 143 | 0 | 12 | UNSTABLE |
+| Naive implementation | 8,947 | 234 | 1,204 | UNSTABLE |
 
 **Stability features in DRE:**
 - `max(denom, 1e-6)` guards in D_GGX
@@ -82,7 +82,7 @@
 
 **Notes:**
 - DRE uses Owen-scrambled Sobol (Vol. 1 § 7.1.2.1)
-- 2–4× faster convergence than naive random
+- 2–4 faster convergence than naive random
 - Matches theoretical O(1/√N) rate for MC
 - QMC baseline: ≈5% better than DRE (expected, DRE prioritizes balance)
 
@@ -94,16 +94,16 @@
 
 | Method | Accept Rate | Variance | Relative Efficiency |
 |---|---:|---:|---:|
-| **DRE VNDF (Heitz 2018)** | 100% | 0.0082 | 1.00× (baseline) |
-| GGX NDF sampling | 100% | 0.0124 | 0.66× |
-| Cosine hemisphere | 53% | 0.0341 | 0.24× |
-| Uniform hemisphere | 32% | 0.0892 | 0.09× |
+| **DRE VNDF (Heitz 2018)** | 100% | 0.0082 | 1.00 (baseline) |
+| GGX NDF sampling | 100% | 0.0124 | 0.66 |
+| Cosine hemisphere | 53% | 0.0341 | 0.24 |
+| Uniform hemisphere | 32% | 0.0892 | 0.09 |
 
 **Notes:**
 - VNDF has 100% accept rate (perfect importance sampling)
-- 1.5× lower variance than basic GGX NDF sampling
-- 4× more efficient than cosine hemisphere
-- 11× more efficient than uniform sampling
+- 1.5 lower variance than basic GGX NDF sampling
+- 4 more efficient than cosine hemisphere
+- 11 more efficient than uniform sampling
 
 ---
 
@@ -130,17 +130,17 @@
 
 | Feature | DRE Vol. 1 | Frostbite | UE5 | Unity |
 |---|:---:|:---:|:---:|:---:|
-| GGX NDF (Trowbridge-Reitz) | ✅ | ✅ | ✅ | ✅ |
-| Height-correlated Smith G₂ | ✅ | ✅ | ❌† | ❌† |
-| Schlick Fresnel | ✅ | ✅ | ✅ | ✅ |
-| VNDF importance sampling | ✅ | ✅ | ✅ | ❌ |
-| Energy conservation | ✅ | ✅ | ⚠️‡ | ❌ |
-| Russian Roulette (unbiased) | ✅ | ✅ | ✅ | ⚠️§ |
-| Numerical stability guards | ✅ | ✅ | ✅ | ⚠️ |
-| Automated tests | ✅ | ❌ | ❌ | ❌ |
-| Open source | ✅ | ⚠️** | ❌ | ⚠️** |
+| GGX NDF (Trowbridge-Reitz) | | | | |
+| Height-correlated Smith G₂ | | | † | † |
+| Schlick Fresnel | | | | |
+| VNDF importance sampling | | | | |
+| Energy conservation | | | ‡ | |
+| Russian Roulette (unbiased) | | | | § |
+| Numerical stability guards | | | | |
+| Automated tests | | | | |
+| Open source | | ** | | ** |
 
-† Uses separable (uncorrelated) form → slight energy deficit
+† Uses separable (uncorrelated) form slight energy deficit
 ‡ DefaultLit conserves, but not all materials
 § Biased in Standard Shader (no 1/q rescaling)
 ** Partial (reference slides only, no full code)
@@ -159,27 +159,27 @@
 | **DRE Vol. 1** | **0** (new 2026) | **TBD** |
 
 **Key differentiators:**
-- ✅ Only open implementation with automated validation
-- ✅ Complete with energy conservation proofs
-- ✅ Educational focus: code matches equations in manuscript
-- ✅ Zero dependencies (pure HLSL + NumPy for tests)
+- Only open implementation with automated validation
+- Complete with energy conservation proofs
+- Educational focus: code matches equations in manuscript
+- Zero dependencies (pure HLSL + NumPy for tests)
 
 ---
 
 ## Validation Authority
 
 **Mathematical proofs verified against:**
-- ✅ Walter et al. (2007) — GGX microfacet paper
-- ✅ Heitz (2014) — Height-correlated Smith G₂
-- ✅ Heitz (2018) — VNDF sampling
-- ✅ Lagarde & de Rousiers (2014) — Frostbite PBR
-- ✅ Veach (1997) — Multiple Importance Sampling thesis
-- ✅ Kajiya (1986) — Rendering equation
+- Walter et al. (2007) — GGX microfacet paper
+- Heitz (2014) — Height-correlated Smith G₂
+- Heitz (2018) — VNDF sampling
+- Lagarde & de Rousiers (2014) — Frostbite PBR
+- Veach (1997) — Multiple Importance Sampling thesis
+- Kajiya (1986) — Rendering equation
 
 **Industry validation:**
-- ✅ Matches Frostbite PBR results within measurement error
-- ✅ Used same test scenes as UE5 validation suite
-- ✅ Numerical methods validated against PBRT v4
+- Matches Frostbite PBR results within measurement error
+- Used same test scenes as UE5 validation suite
+- Numerical methods validated against PBRT v4
 
 ---
 
