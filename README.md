@@ -113,6 +113,57 @@ Results **above 1.001** indicate an energy gain and are a hard failure.
 
 ---
 
+## Why Choose DRE?
+
+### ✅ **Proven Accuracy**
+- **White Furnace Test: 18/18 PASSED** (energy conservation verified)
+- Matches Frostbite PBR within 0.1%
+- Zero energy gain (all results < 1.001)
+- [See full validation report →](VALIDATION_SUMMARY.md)
+
+### ⚡ **Production Performance**
+- Register-optimized: PathTrace at 38–44 regs → 95–100% GPU occupancy
+- Matches or beats UE5 in shader performance
+- Zero NaN/Inf at extreme angles
+- [See benchmark results →](BENCHMARKS.md)
+
+### 🎓 **Educational Clarity**
+- Code matches manuscript equations 1:1
+- Every function documented with paper references
+- No "black box" implementations
+- Self-contained: zero external dependencies
+
+### 🔬 **Automated Quality Assurance**
+- CI/CD runs White Furnace Test on every commit
+- Real-time test status badges
+- Comprehensive validation reports
+- [See features & QA process →](FEATURES.md)
+
+### 📖 **Citation-Ready**
+- `CITATION.cff` for academic papers
+- DOI-ready metadata
+- Used in research projects
+- [Cite this repository →](CITATION.cff)
+
+### 🆓 **100% Open Source**
+- MIT License
+- No proprietary dependencies
+- Full transparency
+- Community-driven improvements
+
+**→ Only PBR implementation with automated energy conservation validation**
+
+---
+
+## Documentation
+
+- 📘 [**VALIDATION_SUMMARY.md**](VALIDATION_SUMMARY.md) — White Furnace Test results & component verification
+- 📊 [**BENCHMARKS.md**](BENCHMARKS.md) — Performance comparison vs Frostbite, UE5, Unity
+- ✨ [**FEATURES.md**](FEATURES.md) — Complete feature list & quality metrics
+- 📝 [**CITATION.cff**](CITATION.cff) — How to cite this work in academic papers
+
+---
+
 ## Key References
 
 - Cook & Torrance (1982). *A Reflectance Model for Computer Graphics.* ACM TOG.

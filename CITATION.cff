@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use this software in your research, please cite it as below."
+type: software
+title: "Digital Rendering Engineering: The Physics of Light - Companion Code"
+authors:
+  - family-names: "Sage"
+    given-names: "JM"
+    affiliation: "Optics Optimization Laboratory"
+repository-code: "https://github.com/OpticsOptimizationLab/dre-physics-of-light"
+url: "https://github.com/OpticsOptimizationLab/dre-physics-of-light"
+abstract: >-
+  Production-quality HLSL implementations of physically-based rendering
+  algorithms with automated energy conservation validation. Includes
+  Cook-Torrance microfacet BRDF, VNDF importance sampling, Russian Roulette
+  path termination, and comprehensive White Furnace testing.
+keywords:
+  - physically-based-rendering
+  - pbr
+  - ray-tracing
+  - hlsl
+  - cook-torrance
+  - brdf
+  - energy-conservation
+  - monte-carlo
+  - importance-sampling
+  - computer-graphics
+license: MIT
+version: 1.0.0
+date-released: "2026-03-22"
